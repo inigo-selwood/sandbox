@@ -82,7 +82,9 @@ jobs:
         username: ${{ secrets.AZURE_CLIENT_ID }}
         password: ${{ secrets.AZURE_CLIENT_SECRET }}
     
-    - run: |
+    - name: build
+      working-directory: services/nlp_api
+      run: |
         docker build \
           -t ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/nlp_api:${{ github.sha }} \
           -f deployment/dockerfile .
