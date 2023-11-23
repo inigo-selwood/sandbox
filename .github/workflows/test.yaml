@@ -1,4 +1,4 @@
-name: lint
+name: test
 
 on:
   push:
@@ -21,9 +21,10 @@ jobs:
     - name: install dependencies
       run: |
         pip install --upgrade pip
-        pip install flake8
+        pip install -r services/nlp_api/deployment/requirements.txt
+        pip install pytest
 
-    - name: lint
+    - name: test
       working-directory: services/nlp_api
       run: |
-        python -m flake8 source/
+        python -m pytest test/
