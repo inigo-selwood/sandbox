@@ -1,4 +1,4 @@
-name: test
+name: Push
 
 on:
   push:
@@ -6,10 +6,33 @@ on:
     - master
     paths:
     - '**/*.py'
-    - '.github/workflows/test.yaml'
+    - '.github/workflows/push.yaml'
 
 jobs:
+
   lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: install python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install flake8
+
+    - name: lint
+      working-directory: services/nlp_api
+      run: |
+        python -m flake8 source/
+
+  test:
     runs-on: ubuntu-latest
 
     steps:
