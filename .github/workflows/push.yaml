@@ -64,20 +64,27 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3
-      
+
     - name: build
       working-directory: services/nlp_api
       run: |
         docker build -t nlp_alp -f deployment/dockerfile .
 
-    # - name: login to azure
-    #   run: |
-    #     az login \
-    #       --service-principal \
-    #       -u $client_id \
-    #       -p $client_secret \
-    #       --tenant $tenant_id
-
-    # - name: login to container registry
-    #   run: |
-    #     az acr login --name registry
+    - name: azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: build and push
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.AZURE_CLIENT_ID }}
+        password: ${{ secrets.AZURE_CLIENT_SECRET }}
+    
+    - run: |
+        docker build \
+          -t ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/nlp_api:${{ github.sha }} \
+          -f deployment/dockerfile .
+        docker push \
+          ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/nlp_api:${{ github.sha }}
