@@ -1,4 +1,3 @@
-import nltk
 import fastapi
 
 from . import endpoints
