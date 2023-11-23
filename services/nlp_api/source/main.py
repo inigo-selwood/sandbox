@@ -9,7 +9,3 @@ app = fastapi.FastAPI()
 
 for router in endpoints.routers:
     app.include_router(router)
-
-
-# Download NLTK dependencies
-nltk.download('punkt') 
