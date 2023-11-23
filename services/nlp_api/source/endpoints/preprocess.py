@@ -33,7 +33,7 @@ class PreprocessResponse(pydantic.BaseModel):
     tokens: list[str]
 
 
-@router.post('/preprocess')
+@router.post("/preprocess")
 def preprocess(request: PreprocessRequest) -> PreprocessResponse:
     """
     Endpoint to preprocess text.

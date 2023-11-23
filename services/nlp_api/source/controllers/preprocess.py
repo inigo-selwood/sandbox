@@ -20,6 +20,7 @@ def preprocess(text: str) -> list[str]:
     To do
     -----
     - Remove URLs
+    - Remove HTML tags
     - Handle contractions
     - Remove emojis and special characters
     - Remove rare words
@@ -32,9 +33,6 @@ def preprocess(text: str) -> list[str]:
 
     # Remove punctuation
     text = text.translate(str.maketrans("", "", string.punctuation))
-
-    # Remove HTML tags
-    text = re.sub(r"<.*?>", "", text)
 
     # Remove numbers
     text = re.sub(r"\d+", "", text)
