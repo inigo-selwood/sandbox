@@ -25,4 +25,4 @@ jobs:
 
     - name: lint
       run: |
-        python -m flake8 services/api/source
+        python -m flake8 services/nlp_api/source
